@@ -1,0 +1,16 @@
+<resources>
+
+    <string name="app_name">Login App</string>
+
+    <string name="facebook_app_id">366177695322107</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">56789</string>
+    <string name="welcome_to_your_profile">Welcome to your profile!</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="sign_out">Sign out</string>
+    <string name="sign_in">Sign in</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+
+</resources>
