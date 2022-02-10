@@ -33,6 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     //View binding/that interacts with views.
     private ActivityProfileBinding binding;
+    private String accountName, accountEmail, accountPicture;
 
     private GoogleSignInOptions gso;
     private GoogleSignInClient gsc;
@@ -45,23 +46,29 @@ public class ProfileActivity extends AppCompatActivity {
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //to configure the Auth.GOOGLE_SIGN_IN_API
+        /**
+         * to configure the Auth.GOOGLE_SIGN_IN_API
+         */
         gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-
-        //for interacting with the Google Sign In API
+        /**
+         * for interacting with the Google Sign In API
+         */
         gsc = GoogleSignIn.getClient(this,gso);
 
-        //for identifying authenticated users
+        /**
+         * for identifying authenticated users
+         */
         accessToken = AccessToken.getCurrentAccessToken();
 
-        // we get the data from account that signed in
+        /**
+         *get the data from account that signed in
+         */
         getDataFromGoogleAccount();
         getDataFromFacebookAccount();
 
-        //for sign out from our profile and return to login activity
         binding.profileSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,26 +77,22 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-
     private void getDataFromGoogleAccount() {
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if (account!=null) { //that means >> there ara account signed in
+        if (account!=null) {
 
-            //get data
-            String googleName = account.getDisplayName();
-            String googleEmail = account.getEmail();
-            String googlePicture = String.valueOf(account.getPhotoUrl());
+            /**
+             * get data
+             */
+            accountName = account.getDisplayName();
+            accountEmail = account.getEmail();
+            accountPicture = String.valueOf(account.getPhotoUrl());
 
-            //set data
-            binding.profileName.setText(googleName);
-            binding.profileEmail.setText(googleEmail);
-
-            //picasso to load our picture
-            Picasso.get()
-                    .load(googlePicture)
-                    .placeholder(R.drawable.ic_baseline_person_24_gray)
-                    .into(binding.profilePicture);
+            /**
+             * set data
+             */
+            setDateIntoFields();
         }
     }
 
@@ -102,18 +105,17 @@ public class ProfileActivity extends AppCompatActivity {
                             JSONObject object,
                             GraphResponse response) {
                         try {
-                            //get data
-                            String f_email = object.getString("email");
-                            String fullName = object.getString("name");
-                            String url = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                            /**
+                             * get data
+                             */
+                            accountEmail = object.getString("email");
+                            accountName = object.getString("name");
+                            accountPicture = object.getJSONObject("picture").getJSONObject("data").getString("url");
 
-                            //set Date
-                            binding.profileEmail.setText(f_email);
-                            binding.profileName.setText(fullName);
-                            Picasso.get()
-                                    .load(url)
-                                    .placeholder(R.drawable.ic_baseline_person_24_gray)
-                                    .into(binding.profilePicture);
+                            /**
+                             * set data
+                             */
+                            setDateIntoFields();
                         } catch (JSONException e) {
                             Toast.makeText(ProfileActivity.this, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
                             Log.d(FACEBOOK_TAG, "onCompleted: Error ( "+e.getMessage()+") ");
@@ -126,8 +128,19 @@ public class ProfileActivity extends AppCompatActivity {
         request.executeAsync();
     }
 
+    private void setDateIntoFields() {
+        binding.profileName.setText(accountName);
+        binding.profileEmail.setText(accountEmail);
+        Picasso.get()
+                .load(accountPicture)
+                .placeholder(R.drawable.ic_baseline_person_24_gray)
+                .into(binding.profilePicture);
+    }
+
     private void signOut() {
-        //to sign out, we have to get the client /google//
+        /**
+         * to sign out, we have to get the client /google
+         */
         gsc.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -136,9 +149,10 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        //Facebook
+        /**
+         * Facebook
+         */
         LoginManager.getInstance().logOut();
-        navigateToMainActivity();
     }
 
     private void navigateToMainActivity() {

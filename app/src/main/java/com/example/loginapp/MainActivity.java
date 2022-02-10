@@ -1,14 +1,13 @@
 package com.example.loginapp;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+
 import android.widget.Toast;
 
 import com.example.loginapp.databinding.ActivityMainBinding;
@@ -25,14 +24,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
-
 import java.util.Arrays;
 
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private ActivityMainBinding binding;
-
     private GoogleSignInOptions gso;
     private GoogleSignInClient gsc;
     private CallbackManager callbackManager;
@@ -42,35 +38,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //make full screen
-        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        //init view binding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        /*To check whether the user has logged in before or not,
-        if yes the app will run directly on the profile activity
-         otherwise it will start with the activity logged in*/
+        /**
+         *   To check whether the user has logged in before or not,
+         *   if yes the app will run directly on the profile activity
+         *   otherwise it will start with the activity logged in
+         */
         checkCurrentUser();
 
-        //for manage the callbacks into the FacebookSdk
+        /**
+         * for manage the callbacks into the FacebookSdk
+         */
         callbackManager = CallbackManager.Factory.create();
-
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        //login successfully, so go to user profile
+                        /**
+                         * login successfully, so go to user profile
+                         */
                         navigateToProfileActivity();
                     }
 
                     @Override
-                    public void onCancel() {
-                        // App code
-                    }
+                    public void onCancel() {}
 
                     @Override
                     public void onError(FacebookException exception) {
@@ -81,24 +74,26 @@ public class MainActivity extends AppCompatActivity {
         binding.facebookBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //login to facebook
                 LoginManager.getInstance().logInWithReadPermissions(MainActivity.this, Arrays.asList("public_profile"));
             }
         });
 
-        //to configure the Auth.GOOGLE_SIGN_IN_API
+        /**
+         * to configure the Auth.GOOGLE_SIGN_IN_API
+         */
         gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
 
-        //for interacting with the Google Sign In API
+        /**
+         * for interacting with the Google Sign In API
+         */
         gsc = GoogleSignIn.getClient(this,gso);
 
         binding.googleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //login to google
                 signIn();
             }
         });
@@ -106,47 +101,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkCurrentUser() {
-
-        //for identifying authenticated users
+        /**
+         * for identifying authenticated users
+         */
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
 
-        //for get the last singed in account from the Class that holds the basic account information of the signed in Google user
+        /**
+         * for get the last singed in account from the Class that holds the basic account information of the signed in Google user
+         */
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if (account!=null || (accessToken != null && !accessToken.isExpired())) {
+        if (account != null || (accessToken != null && !accessToken.isExpired())) {
             navigateToProfileActivity();
         }
     }
 
     private void signIn() {
         Intent signInIntent = gsc.getSignInIntent();
-        startActivityForResult(signInIntent,GOOGLE_REQUEST_CODE); //now you can select any google account to login , so after sign you should call back
+        startActivityForResult(signInIntent,GOOGLE_REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        //for facebook account
         callbackManager.onActivityResult(requestCode, resultCode, data);
-
         super.onActivityResult(requestCode, resultCode, data);
 
-        //for google account
         if (requestCode == GOOGLE_REQUEST_CODE) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
             try {
-                //successfully logged in
+                /**
+                 * successfully logged in so go to profile activity
+                 */
                 task.getResult(ApiException.class);
-                // go to profile activity
                 navigateToProfileActivity();
             } catch (ApiException e) {
-                //that means not login
                 Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     private void navigateToProfileActivity() {
-        // Intent for go to second activity (Profile Activity)
         Intent profileIntent = new Intent(MainActivity.this,ProfileActivity.class);
         startActivity(profileIntent);
         finish();

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,7 +12,6 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/_70sdp"
         android:background="@drawable/main_wave"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,7 +27,6 @@
         android:textColor="@color/white"
         android:textSize="@dimen/_28ssp"
         android:textStyle="bold"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,11 +34,10 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="@dimen/_110sdp"
-        android:layout_height="@dimen/_110sdp"
-        android:layout_marginTop="@dimen/_50sdp"
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_70sdp"
+        android:layout_marginTop="@dimen/_48sdp"
         android:src="@drawable/logo"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_signIn" />
@@ -51,23 +47,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_12sdp"
         android:background="@drawable/round_border"
         android:drawableStart="@drawable/ic_baseline_email_24_white"
         android:drawableLeft="@drawable/ic_baseline_email_24_white"
         android:drawablePadding="@dimen/_10sdp"
         android:drawableTint="@color/purple_500"
         android:hint="@string/email"
-        android:padding="@dimen/_14sdp"
+        android:padding="@dimen/_8sdp"
         android:textColor="@color/purple_500"
         android:textColorHint="@color/gray01"
-        android:textSize="@dimen/_14ssp"
 
+        android:textSize="@dimen/_10ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.64"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-
         tools:targetApi="m" />
 
     <EditText
@@ -83,10 +77,10 @@
         android:drawableTint="@color/purple_500"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:padding="@dimen/_14sdp"
+        android:padding="@dimen/_8sdp"
         android:textColor="@color/purple_500"
         android:textColorHint="@color/gray01"
-        android:textSize="@dimen/_14ssp"
+        android:textSize="@dimen/_10ssp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,46 +101,45 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
+
     <Button
         android:id="@+id/logInbtn"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/password"
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_16sdp"
         android:background="@drawable/round_border"
         android:backgroundTint="@color/purple_500"
         android:text="@string/sign_in"
         android:textColor="@color/white"
-        android:textSize="@dimen/_14ssp"
+        android:textSize="@dimen/_10ssp"
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgotPass"
-
+        app:layout_constraintStart_toStartOf="@+id/password"
+        app:layout_constraintTop_toBottomOf="@+id/password"
         tools:targetApi="lollipop" />
-
 
     <TextView
         android:id="@+id/others"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+
         android:text="@string/or_sign_in_with"
         android:textColor="@color/purple_500"
-        android:textSize="@dimen/_14ssp"
-
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logInbtn"
-        app:layout_constraintVertical_bias="0.049" />
+        android:textSize="@dimen/_10ssp"
+        app:layout_constraintStart_toEndOf="@+id/logInbtn"
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <ImageView
         android:id="@+id/google_btn"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:src="@drawable/google"
         app:layout_constraintStart_toStartOf="@+id/others"
@@ -154,11 +147,10 @@
 
     <ImageView
         android:id="@+id/facebook_btn"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:src="@drawable/fb"
-
         app:layout_constraintBottom_toBottomOf="@+id/google_btn"
         app:layout_constraintEnd_toEndOf="@+id/others"
         app:layout_constraintTop_toBottomOf="@+id/others" />
@@ -167,15 +159,16 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/concert_one"
         android:text="Developed by Mahmoud Saber"
         android:textColor="@color/purple_500"
-        android:textSize="@dimen/_14ssp"
+        android:textSize="@dimen/_8ssp"
         android:textStyle="normal"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.967"
         app:layout_constraintStart_toStartOf="parent" />
 
 
